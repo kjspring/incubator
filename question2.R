@@ -14,6 +14,8 @@ dat$totaltime <- difftime(dat$stoptime, dat$starttime, units="secs")
 # Find the average lenght of a trip in seconds
 mean(dat$totaltime)
 
+# Time difference of 886.5745 secs
+
 # Estimate the minimum fraction of the original dataset that must be missing
 ## First sort the data by bikeid
 dat1 <- dat[with(dat, order(bikeid, starttime)),]
@@ -35,6 +37,7 @@ dat1$stoptime <- as.Date(dat1$stoptime, format="%Y-%m-%d")
 ## Finally, the question is how much missing data is there, so any vertice in the
 ## network that does not have an even number of edges would be missing at least one
 ## data point. This is only estimated because it may be missing more than one.
+
 library(igraph)
 
 ## Subset by bike id
@@ -116,7 +119,7 @@ hourly_dat <- matrix(data=NA, nrow=24, ncol=2) # preallocate matrix
 
 for (i in 0:23) {
     hourly_dat[i+1, 1] <- i # add to data frame
-    hourly_dat[i+1, 2] <- nrow(dat_4sub[dat_4sub$hour == i, ])
+    hourly_dat[i+1, 2] <- nrow(dat_4sub[dat_4sub$hour == as.numeric(i), ])
 }
 
 dat_5sub <- dat_5[as.numeric(dat_5$minute)%%(60) == 0, ] # subset so only riders at the station are counted
@@ -124,7 +127,7 @@ hourly_dat5 <- matrix(data=NA, nrow=24, ncol=2) # preallocate matrix
 
 for (i in 0:23) {
     hourly_dat5[i+1, 1] <- i # add to data frame
-    hourly_dat5[i+1, 2] <- nrow(dat_5sub[dat_4sub$hour == i, ])
+    hourly_dat5[i+1, 2] <- nrow(dat_5sub[dat_4sub$hour == as.numeric(i), ])
 }
 
 hourly_dat <- cbind(hourly_dat, hourly_dat5[,2])
@@ -148,7 +151,7 @@ for (i in 1:length(stations)){
     dat3 <- dat2[dat2$start.station.id == stations[i], ]
     dat3 <- dat3[dat3$day == weekdays(date), ]
     for (e in 0:23) {
-        past[e+1, i+1] <- nrow(dat3[as.numeric(dat3$hour) == e, ])
+        past[e+1, i+1] <- ceiling(nrow(dat3[as.numeric(dat3$hour) == e, ]) / length(unique(dat3$starttime_D)))
     }
 }
 
