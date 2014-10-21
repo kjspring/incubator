@@ -54,9 +54,22 @@ dat$children_born <- as.numeric(as.character(dat$children_born))
 # Exploratory Data analysis plots
 
 #scatterplotMatrix(dat)
-fig1 <- ggplot(dat, aes(contraceptive_method, fill=wife_education) ) + geom_bar(position="dodge")
-fig2 <- ggplot(dat, aes(contraceptive_method, fill=media_exposure) ) + geom_bar(position="dodge")
-fig3 <- ggplot(dat, aes(contraceptive_method, fill=standard_of_living) ) + geom_bar(position="dodge")
+png(filename="fig1.png", width = 480, height = 480, units="px")
+fig1 <- ggplot(dat, aes(contraceptive_method, fill=wife_education) ) 
+fig1 + geom_bar(position="dodge") +
+    theme(panel.background = element_rect(fill='white', colour='black'))
+dev.off()
+png(filename="fig2.png", width = 480, height = 480, units="px")
+fig2 <- ggplot(dat, aes(contraceptive_method, fill=media_exposure) ) 
+fig 2 + geom_bar(position="dodge") +
+    theme(panel.background = element_rect(fill='white', colour='black'))
+dev.off()
+png(filename="fig3.png", width = 480, height = 480, units="px")
+fig3 <- ggplot(dat, aes(contraceptive_method, fill=standard_of_living) ) + geom_bar(position="dodge") +
+    theme(panel.background = element_rect(fill='white', colour='black'))
+dev.off()
+# Save graphs
+
 
 ## Split the data into training and testing data sets
 inTrain <- createDataPartition(y=dat$contraceptive_method, p=0.70, list=F)
@@ -64,8 +77,6 @@ training <- dat[inTrain, ]
 testing <- dat[-inTrain, ]
 ctrl <- trainControl(method="repeatedcv", number = 10, repeats=10)
 modFit <- train(contraceptive_method ~ ., data=training, method="rf", metric="Kappa", trControl = ctrl)
-
-# tree_plot <- fancyRpartPlot(modFit$finalModel)
 
 pred <- predict(modFit, testing)
 testing$predRight <- pred == testing$contraceptive_method
