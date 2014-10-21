@@ -100,7 +100,7 @@ deg["fec8ff"]
 # Estimate the number of bikes at station 8f0f64 and 4a4b61 for each hour on the hour of 2013/10/30
 stations <- c('8f0f64', '4a4b61')
 date <- as.Date("2013-10-30")
-dat2 <- dat1[with(dat, order(starttime, bikeid)),]
+dat2 <- dat[with(dat, order(starttime, bikeid)),]
 dat3 <- subset(dat2, starttime_D==date)
 dat_4 <- subset(dat3, start.station.id == stations[1])
 dat_5 <- subset(dat3, start.station.id == stations[2])
