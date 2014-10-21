@@ -61,15 +61,14 @@ fig1 + geom_bar(position="dodge") +
 dev.off()
 png(filename="fig2.png", width = 480, height = 480, units="px")
 fig2 <- ggplot(dat, aes(contraceptive_method, fill=media_exposure) ) 
-fig 2 + geom_bar(position="dodge") +
+fig2 + geom_bar(position="dodge") +
     theme(panel.background = element_rect(fill='white', colour='black'))
 dev.off()
 png(filename="fig3.png", width = 480, height = 480, units="px")
-fig3 <- ggplot(dat, aes(contraceptive_method, fill=standard_of_living) ) + geom_bar(position="dodge") +
+fig3 <- ggplot(dat, aes(contraceptive_method, fill=standard_of_living) ) 
+fig3 + geom_bar(position="dodge") +
     theme(panel.background = element_rect(fill='white', colour='black'))
 dev.off()
-# Save graphs
-
 
 ## Split the data into training and testing data sets
 inTrain <- createDataPartition(y=dat$contraceptive_method, p=0.70, list=F)

@@ -101,6 +101,7 @@ deg["fec8ff"]
 stations <- c('8f0f64', '4a4b61')
 date <- as.Date("2013-10-30")
 dat2 <- dat[with(dat, order(starttime, bikeid)),]
+dat2$starttime_D <- as.Date(dat2$starttime, format="%Y-%m-%d")
 dat3 <- subset(dat2, starttime_D==date)
 dat_4 <- subset(dat3, start.station.id == stations[1])
 dat_5 <- subset(dat3, start.station.id == stations[2])
